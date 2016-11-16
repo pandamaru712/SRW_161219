@@ -1,0 +1,23 @@
+#System files
+.DS_Store
+
+*.aux
+*.cb
+*.dvi
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.bbl
+*.blg
+
+*.sty
+*.cls
+*.bib
+*.bst
+
+*.sh
+
+/log
+/doc
+/slide
