@@ -36,9 +36,9 @@
 \newcommand{\mthc}{\mathcal C}
 \def\coloneqq{\mathrel{\mathop:}=}
 
-\jtitle{無線LANにおける全二重通信と上りOFDMAの併用による遅延時間削減}
+\jtitle{上りOFDMA適用による全二重通信無線LANの遅延時間削減}
 %\jsubtitle{}
-\etitle{Delay Reduction Using In-Band Full-Duplex system and Uplink OFDMA system for wireless LAN}
+\etitle{Delay Reduction of In-Band Full-Duplex wirless LAN using Uplink OFDMA system}
 %\esubtitle{}
  \alignorder=4
  \breakauthorline{4}
@@ -65,29 +65,29 @@
 \begin{jabstract}
 	無線LANの大容量化に向けて，自己干渉除去技術により送信と受信を同一帯域で同時に行う全二重通信無線LANが有望である．
 	特に，1台のAP（Access Point）とAPへの上り通信を行うSTA（Station），
-	APからの下り通信を受信するSTAの3台によるUFD（user-multiplexing Unidirectional Full-Duplex）通信は自己干渉技術を持たないSTAにも適用可能であるという利点がある．
-	このUFD通信では，APの受信信号にAPの送信信号が影響を与える自己干渉と，
-	STAによる上り通信信号がAPによる下り通信の送信先STAにおいて下り通信信号と干渉するユーザ間干渉が存在する．
-	これらの干渉により，同時に行う上下通信のそれぞれの伝送速度は半二重通信の場合のそれに比べて低くなってしまう．
-	その結果，フレームの時間長が長くなり遅延時間が長くなってしまうという問題がある．
+	APからの下り通信を受信するSTAの3台によるUFD（user-multiplexing Unidirectional Full-Duplex）通信は自己干渉除去技術を持たないSTAにも適用可能であるという利点がある．
+	従来方式のUFD通信では，STAの送信頻度が低下し，STAが行う上り通信の遅延時間が大きくなってしまうという問題がある．
+	これは，下りのTCP通信に対して返送されるTCP-ACKの遅延が増大し，TCPスループットを低下させる恐れがある．
 	本稿ではこの問題の解決のために，UFD通信とOFDMAを組み合わせる方式を提案する．
-	具体的には，遅延時間を考慮した最適化問題を設計し，それを解くことで，確率的に通信方式の選択，通信に参加するSTAの選択を行う．
-	更に，本手法の有効性を計算機シミュレーションにより評価する．
+	半二重通信とUFD通信を併用する従来方式にOFDMAを加え，半二重通信，UFD通信，OFDMA，UFD通信とOFDMAの組み合わせの4方式を用いる．
+	遅延時間を考慮した最適化問題を設計し，それを解くことで，確率的に4つの通信方式の選択と通信に参加するSTAの選択を行う．
+	本手法の有効性を計算機シミュレーションにより評価する．
 \end{jabstract}
 \begin{jkeyword}
-	全二重通信無線LAN，ユーザ間干渉，公平性，遅延時間, OFDMA
+	全二重通信無線LAN，ユーザ間干渉，遅延時間, OFDMA
 \end{jkeyword}
 \begin{eabstract}
 	Self-interference cancellation techniques enable in-band full-duplex wireless local area networks (WLANs), where transmit and receive simultaneously in the same frequency band.
-	In particular, user-multiplexing unidirectional full-duplex (UFD) communication, where a full-duplex access point (AP) transmits a frame to a station (STA) and receives a frame from another STA, is seen as an enabler of the WLANs, since UFD is applicable for the conventional STAs without self-interference cancellation capability.
-	However, the UFD communication has a large delay of STAs because low physical(PHY) rates are used due to the interferences.
-	In this paper, we propose a scheme to mitigate delay.
-	The scheme use the UFD communication and uplink OFDMA system, and increase transmission opportunities of STAs.
+	In particular, user-multiplexing unidirectional full-duplex (UFD) communication, where a full-duplex access point (AP) transmits a frame to a station (STA) and receives a frame from another STA, is a promising technology for broadband WLANs, since UFD is applicable for the conventional STAs without self-interference cancellation capability.
+	However, the UFD communication causes a long data frame transmission delay.
+	This probrem decreases the transmission control protocol (TCP) throughput because TCP-acknowledgement (ACK) frames delay.
+	In this paper, we propose a scheme to reduce the date frame transmission delay of STAs.
+	The scheme uses the UFD communication and uplink OFDMA system, and increases transmission opportunities of STAs.
 	Simulation results show that the scheme reduce the delay which is the same level with the half-duplex system.
 
 \end{eabstract}
 \begin{ekeyword}
-	full-duplex wireless LAN, inter-user interference, fairness, delay, OFDMA
+	full-duplex wireless LAN, inter-user interference, delay, OFDMA
 \end{ekeyword}
 
 \titlepagebaselinestretch{0.95}
@@ -99,7 +99,7 @@
 	近い将来5\,GHz帯の逼迫も懸念されることから，無線LANのさらなる大容量化は急務である.
 	大容量化を実現する方法の一つとして，送信と受信を同じ周波数帯で同時に行う全二重通信無線LANが有望である．
 	全二重通信無線LANでは上り通信と下り通信を同一帯域で同時に行うため，システムスループットを向上させることができる．
-	全二重通信無線LANにはAP（Access Point）の送信先STA（station）とAPへの上り通信を行うSTAが同じである双方向全二重（BFD: Bidirectional Full-Duplex）通信と，
+	全二重通信無線LANには，図\ref{fig:topology}\subref{fig:bfd}のようなAP（Access Point）の送信先STA（station）とAPへの上り通信を行うSTAが同じである双方向全二重（BFD: Bidirectional Full-Duplex）通信と，
 	図\ref{fig:topology}\subref{fig:ufd}に示すような上り通信を行うSTAと下り通信を受信するSTAが異なる全二重（UFD: user-multiplexing Unidirectional Full-Duplex）通信がある．
 	UFD通信は半二重通信にしか対応していないSTAにも適用可能であるという利点がある．
 	このUFD通信を用いた無線LANでは二つの干渉が問題となる．
@@ -110,18 +110,23 @@
 	ユーザ間干渉では，干渉を受けるSTA $i$にとって干渉波がSTA $j$の送信する未知の信号であるため，
 	自己干渉のように除去することができない．
 	\par
-	このユーザ間干渉の影響を低減するためには，干渉の大きさを考慮して上り通信を行うSTAと下り通信を受信するSTAの適切な組み合わせを選び出すことや，
-	送信電力制御を行うことが必要である．これ関し，システムスループットを最大化することを目的関数とした最適化問題を解くことでSTA選択し，その後電力制御を行う手法が提案されている~\cite{promac}．
-	更に，筆者らはこの手法を拡張し，システムスループットだけでなくSTA間の公平性やQoSを改善する手法を提案している~\cite{promac_fair}．
+	このユーザ間干渉の影響を低減するためには，干渉の大きさを考慮して上り通信を行うSTAと下り通信を受信するSTAの適切な組み合わせを選択することが必要である．
+	我々はUFD通信におけるSTA選択を最適化問題として定式化し，システムスループットとSTA間の送信機会に関する公平性を両立させる手法を提案している~\cite{promac_fair}．
 	\par
-	しかし，UFD通信では半二重通信を用いる場合に比べ，STAの遅延時間が増大してしまうという問題がある．
-	これは，ユーザ間干渉の影響により，半二重通信の場合に比べ伝送速度が低下してしまうため，
-	データフレームの時間長が長くなることが原因である．
+	しかし，UFD通信では半二重通信を用いる場合に比べ，上り通信を行うSTAの遅延時間が増大してしまうという課題が残っている．
+	これは，半二重通信の場合と比べて下り通信を行うAPの通信比率が増え，上り通信を行うSTAの送信機会が減少するためである．
+	上り通信の遅延時間が増大すると，TCP（Transmissioin Control Protocol）の下り通信に対して返送されるTCP-ACK(Acknowledgement)の送信が遅れ，
+	その結果，下り通信のTCPスループットが低下する恐れがある．
 	\par
-	本稿では，遅延時間削減のために図\ref{fig:topology}\subref{fig:ufd_ofdma}のようにUFD通信と上りOFDMAを組み合わせる手法を提案する．
-	上り通信をOFDMAによって多重化しSTAの送信機会を増加させることでSTAの遅延時間を削減する．
-	具体的には，~\cite{promac_fair}における最適化問題，STA選択手法をOFDMAを適用できるように拡張する．
-	更に，本手法の有効性を計算機シミュレーションにより評価する．
+	本稿では，遅延時間削減のために図\ref{fig:ofdma}のようにUFD通信に加え，
+	上り通信にOFDMA（Orthogonal Frequency-Division Multiple Access）を用いるためのSTA選択手法を提案する．
+	OFDMAとは周波数チャネルを複数に分割し，サブキャリアを複数のユーザに割り当て，並列に伝送する方式である．
+	現在策定が進められているIEEE 802.11axにおいて，OFDMAは，短いフレームの並列伝送による周波数利用効率の向上や，
+	TCP-ACKの遅延時間削減によるTCPスループットの向上を実現する技術として期待されている．
+	提案方式では，このOFDMAによって上り通信を多重化しSTAの送信頻度を増加させ，遅延時間を削減する．
+	~\cite{promac_fair}における最適化問題，STA選択手法をOFDMAを適用できるように拡張し，
+	半二重通信，UFD通信，OFMDA通信，UFD通信とOFDMA通信の組み合わせの4つの方式を切り替え，STA選択を行う手法を提案する．
+	本手法の有効性を計算機シミュレーションにより評価する．
 	\par
 	本稿の構成は以下のとおりである．第2章で本稿で扱うシステムモデルについて述べ，
 	第3章では従来方式の問題点について述べる．
@@ -130,17 +135,24 @@
 
 	\begin{figure}[t]
 		\centering
-		\subfloat[UFD通信]{
-			\epsfig{file=fig/model_relay.eps, scale=0.4}
-			\label{fig:ufd}
+		\subfloat[BFD通信]{
+			\epsfig{file=fig/bfd.eps, scale=0.4}
+			\label{fig:bfd}
 		}
 		\\
-		\subfloat[UFD通信とOFDMA通信の組み合わせ]{
-			\epsfig{file=fig/ofdma.eps, scale=0.4}
-			\label{fig:ufd_ofdma}
+		\subfloat[UFD通信]{
+			\epsfig{file=fig/ufd.eps, scale=0.4}
+			\label{fig:ufd}
 		}
-		\caption{各通信方式}
+		\caption{全二重通信の適用例}
 		\label{fig:topology}
+	\end{figure}
+
+	\begin{figure}[t]
+		\centering
+		\epsfig{file=fig/ofdma.eps, scale=0.4}
+		\caption{UFD通信とOFDMAの組み合わせ}
+		\label{fig:ofdma}
 	\end{figure}
 
 \section{システムモデル}\label{seq:system}
@@ -155,7 +167,7 @@
 	1台のAPが$L$\,m四方の領域の中心に設置され，その周りに$N$台のSTAがランダムに配置されているとする．
 	それらSTAのインデックス集合を$\mN=\{1,2,...,N\}$とする．
 	OFDMAによる多重化は二多重までとし，
-	この$N$台のSTAの中から，図\ref{fig:topology}\subref{fig:ufd_ofdma}のようにAPからの下り通信を受信するSTA $i$と，
+	この$N$台のSTAの中から，図\ref{fig:topology}\subref{fig:ofdma}のようにAPからの下り通信を受信するSTA $i$と，
 	APへの上り通信を行うSTA $j$，$k$を選び出す．
 	このとき，STAの組み合わせを$\sijk$と表現し，$i,\ j,\ k \in \{0\}\cup \mN$であり，
 	STAは自己干渉除去技術を持たずBFD通信はできないと仮定して$i\neq j$かつ$i\neq k$とする．
@@ -179,49 +191,55 @@
 		C=B\log_2(1+{\rm SINR}) \label{eq:capacity}
 	\end{equation}
 	ただし，$B$は通信に用いる帯域幅である．
+	\par
+	本稿では，遅延時間の指標として送信待機時間を用いる．
+	送信待機時間とは，STAにおいてあるデータフレームがバッファの先頭に到着してから送信が開始されるまでの時間とする．
+	これは，データフレームがバッファに到着してから先頭に来るまでの時間はトラヒックやバッファサイズ，輻輳制御によって変動することから，
+	無線LANでの通信方式による遅延時間の違いを知るためにはこれらを除く必要があるためである．
 
-\section{従来方式の問題点とその原因}\label{sec:problem}
-	従来のUFD通信を用いる方式では，半二重通信である場合に比べて遅延時間が増大してしまう．
-	本節では遅延時間の増加という問題点とその原因について述べる．
-	\subsection{遅延時間の増加}
-		\begin{figure}[t]
-			\centering
-			\epsfig{file=graph/delay_sub.eps, scale=0.6}
-			\caption{半二重通信と従来方式における送信待機時間}
-			\label{fig:delay_sub}
-		\end{figure}
-		図\ref{fig:delay_sub}に半二重通信のみを用いる場合と半二重通信とUFD通信を併用する従来方式~\cite{promac_fair}の場合の
-		STAの平均送信待機時間を示す．
-		ただし，送信待機時間とは各STAにおいてあるデータフレームがバッファの先頭に到着してからの経過時間であり，
-		$\alpha$は目的関数における送信待機時間の．影響を調整するパラメータである．
-		送信待機時間が半二重通信の場合と比べて，従来方式は4倍以上の値となっていることがわかる．
-	\subsection{伝送速度の低下}
-		本節では送信待機時間が半二重通信の場合と比べて大きくなってしまう原因について述べる．
-		APの送信電力を$P_{\rm AP}$，STA $j$の送信電力を$P_j$とし，
-		AP-STA $i$間，AP-STA $j$間，STA $i$-$j$間のチャネル係数をそれぞれ$h_{{\rm AP},i}$，$h_{{\rm AP},j}$，$h_{i,j}$とし，
-		雑音電力を$\sigma^2$とすると，半二重通信の場合における上下通信のSNRはそれぞれ，
-		\begin{align}
-			{\rm SNR_{\rm d}^{\rm h}} &= \cfrac{P_{\rm AP}|h_{{\rm AP},i}|^2}{\sigma^2} \label{eq:hd}\\
-			{\rm SNR_{\rm u}^{\rm h}} &= \cfrac{P_j |h_{{\rm AP},j}|^2}{\sigma^2}\label{eq:hu}
-		\end{align}
-		となる．
-		一方，UFD通信の場合の上下通信のSINRはそれぞれ，
-		\begin{align}
-			{\rm SINR_{\rm d}^{\rm f}} &= \cfrac{P_{\rm AP} |h_{{\rm AP},i}|^2}{\sigma^2+P_j'|h_{i,j}|^2}\label{eq:fd}\\
-			{\rm SINR_{\rm u}^{\rm f}} &= \cfrac{P_j' |h_{{\rm AP},j}|^2}{\sigma^2+P_{\rm AP}|h_{\rm AP,AP}|^2}\label{eq:fu}
-		\end{align}
-		となる．
-		ただし，$P_j'$は~\cite{promac}による送信電力制御を行った場合のSTA $j$の送信電力であり$P_j'\leq P_j$である．
-		また，$h_{\rm AP,AP}$はAPの送信信号がAP自身によって受信されるまでの伝搬路のチャネル係数に，
-		自己干渉除去技術による干渉除去の効果を加味した値である．
-		\par
-		式\eqref{eq:hd}と\eqref{eq:fd}の比較，式\eqref{eq:hu}と\eqref{eq:fu}の比較からわかるように，
-		UFD通信における上下通信のSINRは，半二重通信の場合のSNRと比べて干渉と送信電力制御による送信電力低下の分だけ悪化する．
-		これにより，UFD通信では，半二重通信の場合に比べて上下通信それぞれの伝送速度が低下してしまう．
+
+
+%\section{従来方式の問題点とその原因}\label{sec:problem}
+%	従来のUFD通信を用いる方式では，半二重通信である場合に比べて遅延時間が増大してしまう．
+%	本節では遅延時間の増加という問題点とその原因について述べる．
+%	\subsection{遅延時間の増加}
+%		\begin{figure}[t]
+%			\centering
+%			\epsfig{file=graph/delay_sub.eps, scale=0.6}
+%			\caption{半二重通信と従来方式における送信待機時間}
+%			\label{fig:delay_sub}
+%		\end{figure}
+%		図\ref{fig:delay_sub}に半二重通信のみを用いる場合と半二重通信とUFD通信を併用する従来方式~\cite{promac_fair}の場合の
+%		STAの平均送信待機時間を示す．
+%		ただし，送信待機時間とは各STAにおいてあるデータフレームがバッファの先頭に到着してからの経過時間であり，
+%		$\alpha$は目的関数における送信待機時間の．影響を調整するパラメータである．
+%		送信待機時間が半二重通信の場合と比べて，従来方式は4倍以上の値となっていることがわかる．
+%	\subsection{伝送速度の低下}
+%		本節では送信待機時間が半二重通信の場合と比べて大きくなってしまう原因について述べる．
+%		APの送信電力を$P_{\rm AP}$，STA $j$の送信電力を$P_j$とし，
+%		AP-STA $i$間，AP-STA $j$間，STA $i$-$j$間のチャネル係数をそれぞれ$h_{{\rm AP},i}$，$h_{{\rm AP},j}$，$h_{i,j}$とし，
+%		雑音電力を$\sigma^2$とすると，半二重通信の場合における上下通信のSNRはそれぞれ，
+%		\begin{align}
+%			{\rm SNR_{\rm d}^{\rm h}} &= \cfrac{P_{\rm AP}|h_{{\rm AP},i}|^2}{\sigma^2} \label{eq:hd}\\
+%			{\rm SNR_{\rm u}^{\rm h}} &= \cfrac{P_j |h_{{\rm AP},j}|^2}{\sigma^2}\label{eq:hu}
+%		\end{align}
+%		となる．
+%		一方，UFD通信の場合の上下通信のSINRはそれぞれ，
+%		\begin{align}
+%			{\rm SINR_{\rm d}^{\rm f}} &= \cfrac{P_{\rm AP} |h_{{\rm AP},i}|^2}{\sigma^2+P_j'|h_{i,j}|^2}\label{eq:fd}\\
+%		\end{align}
+%		となる．
+%		ただし，$P_j'$は~\cite{promac}による送信電力制御を行った場合のSTA $j$の送信電力であり$P_j'\leq P_j$である．
+%		また，$h_{\rm AP,AP}$はAPの送信信号がAP自身によって受信されるまでの伝搬路のチャネル係数に，
+%		自己干渉除去技術による干渉除去の効果を加味した値である．
+%		\par
+%		式\eqref{eq:hd}と\eqref{eq:fd}の比較，式\eqref{eq:hu}と\eqref{eq:fu}の比較からわかるように，
+%		UFD通信における上下通信のSINRは，半二重通信の場合のSNRと比べて干渉と送信電力制御による送信電力低下の分だけ悪化する．
+%		これにより，UFD通信では，半二重通信の場合に比べて上下通信それぞれの伝送速度が低下してしまう．
 
 \section{提案方式}\label{sec:propose}
 	本節では，遅延時間の増大を防ぐため，上り通信をOFDMAを用いて多重化することを提案する．
-	OFDMAを用いてSTAの送信機会を増加させることで，前節で述べた伝送速度の低下による遅延時間の増大を軽減する．
+	OFDMAを用いてSTAの送信機会を増加させることで遅延時間を削減する．
 	STA決定手法は従来方式~\cite{promac_fair}における手法をOFDMAを適用できるように拡張する．
 	また，計算時間削減のための手法についても検討する．
 	\subsection{STAの組み合わせ決定手法}\label{sec:opt}
@@ -238,8 +256,9 @@
 		ただし，送信待機時間とはあるデータフレームがバッファの先頭に到着してからの経過時間である．
 		\begin{align}
 			&{\mathcal P}_1: && {\rm max} \sum_{(i,j,k)\in{\mathcal C}} p^{(i,j,k)}r^{(i,j,k)}(d^{(j)}+d^{(k)})^{\alpha} &&&&&&\\
-			&{\rm subject\ to} && \sum_{j,k\in\{j,k:(i,j,k)\in{\mathcal C}\}} p^{(i,j,k)} \geq \eta_{\rm d}^{(i)}, \forall i\in {\mathcal N}  \\
-			&&& \sum_{i,j\in\{i,j:(i,j,k)\in{\mathcal C}\}} p^{(i,j,a)} +\sum_{i,k\in\{i,k:(i,j,k)\in{\mathcal C}\}} p^{(i,a,k)} \nonumber\\&&&\qquad- \sum_{i\in\{i:(i,j,k)\in{\mathcal C}\}} p^{(i,a,a)} \geq \eta_{\rm u}^{(a)}, \forall a\in {\mathcal N}  \\
+			&{\rm subject\ to} && \sum_{j,k\in\{j,k:(i,j,k)\in{\mathcal C}\}} p^{(i,j,k)} \geq \eta_{\rm d}^{(i)}, \forall i\in {\mathcal N} \label{eq:etad} \\
+			&&& \sum_{i,j\in\{i,j:(i,j,k)\in{\mathcal C}\}} p^{(i,j,a)} +\sum_{i,k\in\{i,k:(i,j,k)\in{\mathcal C}\}} p^{(i,a,k)} \nonumber\\
+			&&&\qquad- \sum_{i\in\{i:(i,j,k)\in{\mathcal C}\}} p^{(i,a,a)} \geq \eta_{\rm u}^{(a)}, \forall a\in {\mathcal N} \label{eq:etau} \\
 			&&& \sum_{(i,j,k)\in{\mathcal C}} p^{(i,j,k)}=1 \\
 			&{\rm variables:} &&p^{(i,j,k)} \in {\mathbb R}_{\geq 0},\forall(i,j,k)\in {\mathcal C}
 		\end{align}
@@ -294,7 +313,7 @@
 		\begin{figure}[t]
 			\centering
 			\epsfig{file=fig/time.eps, scale=0.6}
-			\caption{システムスループット}
+			\caption{位置によるSTAのグループ分け}
 			\label{fig:time_image}
 		\end{figure}
 		本節では，最適化問題を解くための計算時間を削減する手法について検討する．
@@ -342,20 +361,23 @@
 	\end{table}
 
 	本章では提案手法の有効性をシミュレーションによって評価する．
-	半二重通信のみを用いる場合，従来方式~\cite{promac_fair}を用いて半二重通信とUFD通信を併用する場合と，
-	提案方式を比較する．
+	半二重通信のみを用いる場合，半二重通信とUFD通信を併用する従来方式~\cite{promac_fair}と，
+	半二重通信，UFD通信，OFDMA，UFD通信とOFDMA通信の組み合わせの4方式を用いる提案方式を比較する．
 	OFDMAによる多重化は二多重までとし，チャネル幅は二等分するものとする．
 	図\ref{fig:model}のように，1台のAPが $L=$100\,m四方の領域の中心に設置され，その周りに$N$台のSTAがランダムに配置されているとする．
 	第\ref{sec:opt}節で述べた部分以外のMACプロトコルは~\cite{promac}に従うものとする．
+	式\eqref{eq:etad}における$\eta_{\rm d}^{(i)}$には各STA共通の$1/[(N+1)N]$を，
+	式\eqref{eq:etau}における$\eta_{\rm u}^{(a)}$には各STA共通の$1/(N+1)$を設定している．
 	伝送速度はIEEE 802.11aに従う．
 	上下通信ともに飽和トラヒックであり，APには1500\,Bの，STAには64\,Bのデータフレームが発生しているものとする．
-	また，本稿では遅延時間の代わりに送信待機時間を評価指標とする．
+	これは，トラヒックのほとんどga64\,B以下の短いフレームと1500\,B付近の長さのフレームによって占めるからである~\cite{traffic}．
+	また，本稿では遅延時間を送信待機時間と定義する．
 
 	\subsection{遅延時間の削減}
 		\begin{figure}[t]
 			\centering
 			\epsfig{file=graph/delay.eps, scale=0.6}
-			\caption{STAの平均送信待機時間}
+			\caption{上り通信の遅延時間}
 			\label{fig:delay}
 		\end{figure}
 		\begin{figure}[t]
@@ -366,11 +388,12 @@
 		\end{figure}
 
 		$N=50$台の場合について，図\ref{fig:delay}，\ref{fig:thr}にSTAの平均送信待機時間とシステムスループットを示す．
-		第\ref{sec:problem}章で述べた通り，従来方式の送信待機時間は半二重通信の場合のそれと比べ大きいことがわかる．
+		半二重通信とUFD通信を用いる従来方式の送信待機時間は半二重通信のと比べ大きいことがわかる．
 		一方，提案方式はパラメータ$\alpha$を大きくすることで送信待機時間を半二重通信と同等の値まで削減できていることがわかる．
 		しかし，$\alpha$が大きくなるにつれて，システムスループットが低下してしまっている．
-		これは，送信待機時間$d^{(j)},\ d^{(k)}$の項の影響が大きくなり，
-		送信待機時間が大きいSTAに通信させるためにOFDMA単体による通信が多くなることが原因であると考える．
+		これは，送信待機時間$d^{(j)},\ d^{(k)}$の項の影響が大きくなり，遅延時間削減を優先しているためである．
+		$\alpha$を増加させ遅延時間削減を優先した結果，システムスループットは低下したものの，半二重通信に対しては3倍程度の値を維持しつつ，
+		遅延時間を半二重通信と同等まで削減することができた．
 
 	\subsection{計算時間の削減}
 		\begin{table}[t]
@@ -382,28 +405,30 @@
 			 803\,ms & 483\,ms \\\hline
 			\end{tabular}
 		\end{table}
-		\begin{figure}[t]
-			\centering
-			\epsfig{file=graph/thr_time.eps, scale=0.6}
-			\caption{システムスループットへの計算時間削減手法の影響}
-			\label{fig:thr_time}
-		\end{figure}
+%		\begin{figure}[t]
+%			\centering
+%			\epsfig{file=graph/thr_time.eps, scale=0.6}
+%			\caption{システムスループットへの計算時間削減手法の影響}
+%			\label{fig:thr_time}
+%		\end{figure}
 
 	次に計算時間について評価する．
 	表\ref{tab:time}に第\ref{sec:time}節で述べた計算時間削減手法を用いた場合と用いない場合について，
 	最適化問題を一回解くために必要な平均時間を示す．
-	結果から分かる通り，計算時間を40\%削減できている．
-	さらに，計算時間削減手法を用いたことによる影響を調べるために，図\ref{fig:thr_time}に両者のシステムスループットを示す．
+	計算時間を40\%削減できている．
+	さらに，計算時間削減手法を用いたことによる影響を調べるために図\ref{fig:thr}の両者のシステムスループットを比較すると，
 	全体的に計算時間削減手法を用いた方が用いない場合に比べてシステムスループットが小さくなっている．
 	差は$\alpha=0$のときには1\%，$\alpha=1$のときには18\%となっている．
-	$\alpha$が小さいときには送信待機時間$d^{(j)},\ d^{(k)}$の影響が小さく，
-	干渉の小さな組み合わせが選ばれやすい．
-	干渉の小さな組み合わせは，APに対してSTA $i$とSTA $j$，$k$が対角の位置に存在している場合であり，
-	このような組み合わせは計算時間削減手法を用いていても除外されていないため，影響が少ないと考えられる．
-	一方，$\alpha$が大きいときには送信待機時間$d^{(j)},\ d^{(k)}$の影響が大きく，
-	例えある程度干渉が大きい組み合わせでも送信待機時間が大きいSTAを選ばざる負えない．
-	このような場合は，計算時間削減手法によって除外された組み合わせの中によりよい組み合わせが含まれてしまっていることがあるため，
-	システムスループットが低下してしまうと考えられる．
+	簡易な方式ながら大きく計算時間を削減できた．
+	より高度な方式を採用することでさらなる改善が見込まれる．
+%	$\alpha$が小さいときには送信待機時間$d^{(j)},\ d^{(k)}$の影響が小さく，
+%	干渉の小さな組み合わせが選ばれやすい．
+%	干渉の小さな組み合わせは，APに対してSTA $i$とSTA $j$，$k$が対角の位置に存在している場合であり，
+%	このような組み合わせは計算時間削減手法を用いていても除外されていないため，影響が少ないと考えられる．
+%	一方，$\alpha$が大きいときには送信待機時間$d^{(j)},\ d^{(k)}$の影響が大きく，
+%	例えある程度干渉が大きい組み合わせでも送信待機時間が大きいSTAを選ばざる負えない．
+%	このような場合は，計算時間削減手法によって除外された組み合わせの中によりよい組み合わせが含まれてしまっていることがあるため，
+%	システムスループットが低下してしまうと考えられる．
 
 \section{まとめ}
 	本稿では，OFDMAとUFD通信を組み合わせて用いる手法を提案した．

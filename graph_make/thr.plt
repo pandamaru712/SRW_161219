@@ -20,7 +20,8 @@ set key font "Helvetica, 20"
 set tics font "Helvetica,25"
 plot "thr.dat" using 1:2 title "Half-duplex" w lp lt 1 lw 4 pt 2 ps 2
 replot "thr.dat" using 1:3 title "Conventional scheme" w lp dt 1 lw 4 pt 6 ps 2
-replot "thr.dat" using 1:4 title "Proposed scheme" w lp dt 2 lw 4 pt 8 ps 2
+replot "thr.dat" using 1:4 title "Proposed scheme w/ calculation time reduction" w lp dt 2 lw 4 pt 8 ps 2
+replot "thr.dat" using 1:5 title "Proposed scheme w/o calculation time reduction" w lp dt 2 lw 4 pt 4 ps 2
 replot
 
 
