@@ -9,7 +9,7 @@ set dashtype 2 (5,5)
 
 set size 1,0.8
 set ytics nomirror
-set xlabel "Average transmission standby time of each STA (ms)" font "Helvetica, 27"
+set xlabel "Average transmission delay of each STA (ms)" font "Helvetica, 27"
 set ylabel "CDF" font "Helvetica, 30"
 set xrange [0:50]
 set yrange [0:1]

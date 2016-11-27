@@ -10,7 +10,7 @@ set dashtype 2 (5,5)
 set size 1,0.8
 set ytics nomirror
 set xlabel "{/Symbol-Oblique a}" font "Helvetica, 30"
-set ylabel "Average transmission standby time\n(ms)" font "Helvetica, 22"
+set ylabel "Average transmission delay (ms)" font "Helvetica, 22"
 set xrange [0:1]
 set yrange [0:30]
 
